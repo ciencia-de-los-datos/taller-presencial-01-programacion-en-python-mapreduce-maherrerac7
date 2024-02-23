@@ -75,10 +75,10 @@ def shuffle_and_sort(sequence):
     #extrae el nombre de la palabra y asi la ordena "lambda=funciones anonimas"
     return sorted_sequence
     
-sequence =load_input("input")
-sequence = mapper(sequence)
-sequence = shuffle_and_sort(sequence)
-print(sequence)
+# sequence =load_input("input")
+# sequence = mapper(sequence)
+# sequence = shuffle_and_sort(sequence)
+# print(sequence)
 #
 # Escriba la función reducer, la cual recibe el resultado de shuffle_and_sort y
 # reduce los valores asociados a cada clave sumandolos. Como resultado, por
@@ -86,9 +86,25 @@ print(sequence)
 # texto.
 #
 def reducer(sequence):
-    pass
+    
+    diccionario = {}
+    for key, value in sequence:
+        if key not in diccionario.keys():
+            diccionario[key] = 0
+        diccionario[key] += value
 
-
+    new_sequence =[]
+    for key, value in diccionario.items():
+        tupla = (key, value)
+        new_sequence.append(tupla)    
+    
+    return new_sequence
+  
+sequence =load_input("input")
+sequence = mapper(sequence)
+sequence = shuffle_and_sort(sequence)
+sequence = reducer(sequence)
+print(sequence)
 #
 # Escriba la función create_ouptput_directory que recibe un nombre de directorio
 # y lo crea. Si el directorio existe, la función falla.
