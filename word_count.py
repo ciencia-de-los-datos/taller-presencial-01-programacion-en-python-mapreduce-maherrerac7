@@ -13,10 +13,29 @@
 #     ('text2.txt'. 'hypotheses.')
 #   ]
 #
+import glob
+import fileinput
+
 def load_input(input_directory):
-    pass
+    sequence = []
+    filenames = glob.glob(input_directory + "/*") #/* todo lo que esta en input lo lee
+    with fileinput.input(files=filenames) as f: ## f es objeto que apunta un archivo en disco  
+        # f contiene un iterador por dentro, contiene las lineas de los archivos
+        for line in f:
+            sequence.append((fileinput.filename(), line))
+    return sequence
+    #una manera de leer los archivos 
+    # for filename in filenames:
+    #     print(filename)
+    #return filenames
+    print(sequence)
 
+    #pass  # es cuando no hay codigo... hay que agregarlo e irlo completando
+    #ctrl+K+C comenta bloque de codigo / ctrl+K+U descomenta codigo comentado
 
+## filenames = load_input("input")
+## print(filenames[2])
+## print(filenames)
 #
 # Escriba una función llamada maper que recibe una lista de tuplas de la
 # función anterior y retorna una lista de tuplas (clave, valor). En este caso,
@@ -30,9 +49,16 @@ def load_input(input_directory):
 #   ]
 #
 def mapper(sequence):
-    pass
+    new_sequence = []
+    for _, text in sequence: ## _ guarda el ultimo resultado de un calculo
+        words = text.split()
+        for word in words:
+            new_sequence.append((word,1))
+    return(new_sequence)
 
-
+# sequence =load_input("input")
+# sequence = mapper(sequence)
+# print(sequence)
 #
 # Escriba la función shuffle_and_sort que recibe la lista de tuplas entregada
 # por el mapper, y retorna una lista con el mismo contenido ordenado por la
@@ -45,9 +71,14 @@ def mapper(sequence):
 #   ]
 #
 def shuffle_and_sort(sequence):
-    pass
-
-
+    sorted_sequence = sorted(sequence, key=lambda x: x[0]) 
+    #extrae el nombre de la palabra y asi la ordena "lambda=funciones anonimas"
+    return sorted_sequence
+    
+sequence =load_input("input")
+sequence = mapper(sequence)
+sequence = shuffle_and_sort(sequence)
+print(sequence)
 #
 # Escriba la función reducer, la cual recibe el resultado de shuffle_and_sort y
 # reduce los valores asociados a cada clave sumandolos. Como resultado, por
@@ -93,8 +124,8 @@ def job(input_directory, output_directory):
     pass
 
 
-if __name__ == "__main__":
-    job(
-        "input",
-        "output",
-    )
+# if __name__ == "__main__":
+#     job(
+#         "input",
+#         "output",
+#     )
